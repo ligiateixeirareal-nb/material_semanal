@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>nabeauty · Lista de Materiais</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#E24E82;
+  --pink-dark:#B93868;
+  --pink-soft:#FDE7EF;
+  --bg:#FFF9FB;
+  --card:#FFFFFF;
+  --ink:#3A1B2B;
+  --ink-soft:#8A6B78;
+  --line:#F3D9E4;
+  --ok:#3FA772;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1B1116;
+    --card:#2A1B22;
+    --ink:#F6E9EF;
+    --ink-soft:#C79CAE;
+    --line:#452833;
+    --pink-soft:#3A1E29;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1B1116;
+  --card:#2A1B22;
+  --ink:#F6E9EF;
+  --ink-soft:#C79CAE;
+  --line:#452833;
+  --pink-soft:#3A1E29;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Manrope',sans-serif;padding-bottom:96px;}
+h1,h2,.brand{font-family:'Poppins',sans-serif;}
+.header{position:sticky;top:0;z-index:20;background:var(--bg);padding:18px 16px 12px;border-bottom:1px solid var(--line);}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.brand-mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--pink),var(--pink-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:17px;flex-shrink:0;}
+.brand-name{font-weight:700;font-size:19px;color:var(--pink-dark);letter-spacing:-.2px;}
+.brand-sub{font-size:12.5px;color:var(--ink-soft);margin-top:1px;}
+.name-field{margin-bottom:10px;}
+.name-field input{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-size:15px;font-family:inherit;}
+.name-field input:focus{outline:none;border-color:var(--pink);}
+.search-wrap{position:relative;}
+.search-wrap input{width:100%;padding:11px 14px 11px 40px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-size:15px;font-family:inherit;}
+.search-wrap input:focus{outline:none;border-color:var(--pink);}
+.search-wrap svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.5;}
+.list{padding:10px 16px 20px;}
+.letter-tag{font-size:12px;font-weight:700;color:var(--pink);padding:14px 4px 6px;letter-spacing:.4px;}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:12px 12px;margin-bottom:8px;}
+.row.active{border-color:var(--pink);background:var(--pink-soft);}
+.row-name{font-size:14.5px;line-height:1.35;flex:1;}
+.stepper{display:flex;align-items:center;gap:0;flex-shrink:0;}
+.stepper button{width:30px;height:30px;border-radius:8px;border:none;background:var(--pink-soft);color:var(--pink-dark);font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+.row.active .stepper button{background:var(--pink);color:#fff;}
+.stepper span{width:28px;text-align:center;font-weight:700;font-size:14.5px;}
+.empty{text-align:center;color:var(--ink-soft);padding:40px 20px;font-size:14px;}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px;z-index:20;}
+.bottom-count{font-size:13px;color:var(--ink-soft);flex-shrink:0;min-width:70px;}
+.bottom-count b{color:var(--pink-dark);font-size:15px;}
+.send-btn{flex:1;background:var(--pink);color:#fff;border:none;padding:13px;border-radius:12px;font-size:15px;font-weight:600;font-family:'Poppins',sans-serif;}
+.send-btn:disabled{opacity:.45;}
+.footer-link{text-align:center;padding:18px 16px 4px;font-size:12px;color:var(--ink-soft);}
+.footer-link span{text-decoration:underline;text-underline-offset:2px;}
+.modal-overlay{position:fixed;inset:0;background:rgba(20,8,14,.55);display:flex;align-items:flex-end;justify-content:center;z-index:50;}
+.modal{background:var(--card);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));max-height:85vh;overflow-y:auto;}
+.modal h2{font-size:17px;margin:0 0 14px;color:var(--pink-dark);}
+.modal input[type=password],.modal input[type=text]{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-size:15px;font-family:inherit;margin-bottom:10px;}
+.modal-btn{width:100%;background:var(--pink);color:#fff;border:none;padding:12px;border-radius:12px;font-weight:600;font-family:'Poppins',sans-serif;font-size:14.5px;}
+.modal-btn.secondary{background:var(--pink-soft);color:var(--pink-dark);margin-top:8px;}
+.admin-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);}
+.admin-row span{flex:1;font-size:13.5px;}
+.admin-row button{background:none;border:none;color:#C0396A;font-size:18px;padding:4px 8px;}
+.close-x{position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;color:var(--ink-soft);}
+.modal{position:relative;}
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;padding:10px 18px;border-radius:10px;font-size:13.5px;z-index:60;opacity:0;transition:opacity .3s;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-mark">nb</div>
+    <div>
+      <div class="brand-name">nabeauty</div>
+      <div class="brand-sub">Lista semanal de materiais</div>
+    </div>
+  </div>
+  <div class="name-field">
+    <input type="text" id="empName" placeholder="Seu nome" autocomplete="off">
+  </div>
+  <div class="search-wrap">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <input type="text" id="search" placeholder="Buscar material..." autocomplete="off">
+  </div>
+</div>
+
+<div class="list" id="list"></div>
+
+<div class="bottom-bar">
+  <div class="bottom-count"><b id="countNum">0</b> itens</div>
+  <a class="send-btn" id="sendBtn" href="#" style="pointer-events:none;opacity:.45;text-align:center;text-decoration:none;">Enviar pedido</a>
+</div>
+
+<div class="footer-link"><span id="rtLink">Área da RT</span></div>
+
+<div id="modalRoot"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const WHATSAPP_NUMBER = "5511975120742";
+const ADMIN_PASSWORD = "9906";
+
+let ITEMS = ["ÁGUA MICELAR", "AGULHA ELECTRIK INK RL 1 PONTA - Ø 0.22 ou 0.35", "AGULHA ELECTRICK INK RL 3 PONTAS - Ø 0.30", "AGULHA ELECTRICK INK RL 5 PONTAS - Ø 0.30", "AGULHA ELECTRICK INK MG 5 PONTAS - Ø 0.35", "AGULHA ELECTRICK INK RS 7 PONTAS - Ø 0.30", "AGULHA ELECTRICK INK MG 7 PONTAS - Ø 0.30", "AGULHA CHEYENNE RL 5 PONTAS - Ø 0.30", "ALGODÃO", "APARADOR ELÉTRICO", "AVENTAL", "BABADOR", "BANDAGEM", "BIOAGE ESSENTIAL OIL", "CANETA EM GEL BRANCA", "CARTUCHO SMART 12, 36, 137", "CERA BROW ON TOP", "CÍLIOS NAGARAKU", "COLA ELITE MASTER", "COLA MASTER FIXING GEL", "COLA LAMI GLUE BALM", "COTONETE", "DERMAROLLER", "DESCARPACK", "DERSANI HIDROGEL", "DILUENTE", "ESFOLIANTE FACIAL", "ESFOLIANTE LABIAL", "ESPÁTULA P/ LASH LIFTING MASTER", "ESPUMINHA NB/ MASTER", "FLOW SENSORY", "FULL BROWS", "GEL SOBRANCELHA BROW BOSS", "GLOSS LIP OIL", "GLOSS NB", "HAUT - PREPARATÓRIO ANTISSÉPTICO", "HENNA LOIRO/CASTANHO/CASTANHO ESCURO", "KIT BOTOX P/ SOBRANCELHA", "LÂMINA GUAPA", "LÁPIS DERMATOGRÁFICO BRANCO/PRETO", "LENÇO UMEDECIDO", "LENÇOL DESCARTÁVEL", "LINHA DE MARCAÇÃO", "LINHA PARA DEPILAÇÃO", "LUVAS ROSA", "MANTEIGA EASY IN RIMOUVER", "MÁSCARA DE SHINE - ROSA", "MICROPORE P/ CÍLIOS", "MIXER", "MOLDES PARA LASHES", "OX CREAM/LIQUID 3% 10 VOL.", "PASSO 1, 2 E 3 - MASTER", "PASTA MODELADORA MASTER", "PIGMENTO DELINEADO - COFFEE", "PIGMENTO LOV - BLACK", "PIGMENTO LOV - BLACK COFFEE", "PIGMENTO LOV - BROW COFFEE", "PIGMENTO LOV - COCONUT", "PIGMENTO LOV - LIGHT", "PIGMENTO LOV - ORANGE COFFEE", "PIGMENTO MAGCOLOR - BRANCO", "PIGMENTO MAGCOLOR - BEGE CLARO", "PIGMENTO MAGCOLOR - BEGE ESCURO", "PIGMENTO MAGCOLOR - BEGE MÉDIO", "PIGMENTO MAGCOLOR - ARÉOLA CLARO", "PIGMENTO MAGCOLOR - ARÉOLA ESCURO", "PIGMENTO MAGCOLOR - ARÉOLA MÉDIO", "PIGMENTO NATI 08, 09, 11 E 12", "PIGMENTO RB - DARLING", "PIGMENTO RB - HOT", "PIGMENTO RB - PENÉLOPE", "PIGMENTO RB - RED SAND", "PIGMENTO RB - TRUE LOVE", "PIGMENTO RB - UTOPIA", "PIGMENTO RB - VERMELHO INSANO", "PIGMENTO SHINE - FOUR", "PIGMENTO SHINE - ONE", "PIGMENTO SHINE - THREE", "PIGMENTO SHINE - TWO", "PIGMENTOS NB - MIDDLE", "PILHA AA", "PILHAS AAA", "PLÁSTICO FILME", "PROTETOR DE PÁLPEBRA", "PROTETOR SOLAR", "REMOVEDOR DE CÍLIOS MASTER", "RESTAURADOR DÉRMICO", "VITAMÉDICA (DESPIGMENTANTE)", "SABONETE ENZIMÁTICO BIOMELAN", "SÉRUM DERMA BROWS", "SÉRUM HIDRAGLOSS KIREY", "SÉRUM TWO MUCH", "SMART VITA C", "SMART BOOSTER", "SMART HYALUCLAR", "SOLUÇÃO SALINA", "SORO FISIOLÓGICO", "TINTURA REFECTOCIL - CASTANHO CLARO", "TINTURA REFECTOCIL - PRETO", "TINTURA APRAISE - CASTANHO AVERMELHADO", "TINTURA APRAISE - DARK BROWN", "TINTURA APRAISE - LIGHT BROWN", "VASELINA", "ESCOVINHAS (KIT BÁSICO)", "PINÇAS (KIT BÁSICO)", "APLICADOR DE GLOSS (KIT BÁSICO)", "SACO P/ DERMÓGRAFO (KIT BÁSICO)", "LÂMINAS SHINE FACE (KIT BÁSICO)", "MICROBUSH (KIT BÁSICO)", "LÂMINAS LOVE (KIT BÁSICO)", "MÁSCARAS DESCARTÁVEIS (KIT BÁSICO)", "PALITOS DE MADEIRA (KIT BÁSICO)", "PALITO COM ALGODÃO (KIT BÁSICO)", "PROTETOR P/ DERMÓGRAFO (KIT BÁSICO)", "PCT GAZE (KIT BÁSICO)", "BATOQUES (KIT BÁSICO)"];
+
+const qty = {};
+ITEMS.forEach(n => qty[n] = 0);
+
+const listEl = document.getElementById('list');
+const searchEl = document.getElementById('search');
+const empNameEl = document.getElementById('empName');
+const countNumEl = document.getElementById('countNum');
+const sendBtn = document.getElementById('sendBtn');
+
+function sortItems(arr){
+  return [...arr].sort((a,b)=>a.localeCompare(b,'pt-BR',{sensitivity:'base'}));
+}
+
+function render(){
+  const term = searchEl.value.trim().toLowerCase();
+  const sorted = sortItems(ITEMS).filter(n => n.toLowerCase().includes(term));
+  if(sorted.length === 0){
+    listEl.innerHTML = '<div class="empty">Nenhum material encontrado.</div>';
+    return;
+  }
+  let html = '';
+  let lastLetter = '';
+  sorted.forEach(name=>{
+    const letter = name[0].toUpperCase();
+    if(letter !== lastLetter && term === ''){
+      html += `<div class="letter-tag">${letter}</div>`;
+      lastLetter = letter;
+    }
+    const q = qty[name] || 0;
+    html += `<div class="row ${q>0?'active':''}" data-name="${encodeURIComponent(name)}">
+      <div class="row-name">${name}</div>
+      <div class="stepper">
+        <button class="minus">−</button>
+        <span>${q}</span>
+        <button class="plus">+</button>
+      </div>
+    </div>`;
+  });
+  listEl.innerHTML = html;
+  updateCount();
+}
+
+listEl.addEventListener('click', e=>{
+  const row = e.target.closest('.row');
+  if(!row) return;
+  const name = decodeURIComponent(row.dataset.name);
+  if(e.target.classList.contains('plus')) qty[name] = (qty[name]||0) + 1;
+  if(e.target.classList.contains('minus')) qty[name] = Math.max(0,(qty[name]||0) - 1);
+  render();
+});
+
+function buildOrderMessage(){
+  const name = empNameEl.value.trim();
+  const picked = sortItems(Object.keys(qty).filter(k=>qty[k]>0));
+  if(!name || picked.length===0) return null;
+  let msg = `*Pedido de materiais - nabeauty*\nMaster: ${name}\n\n`;
+  picked.forEach(n=>{ msg += `• ${n} — ${qty[n]}\n`; });
+  return msg;
+}
+
+function buildWhatsappUrl(){
+  const msg = buildOrderMessage();
+  if(!msg) return null;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
+
+function updateCount(){
+  const total = Object.values(qty).filter(v=>v>0).length;
+  countNumEl.textContent = total;
+  const url = buildWhatsappUrl();
+  if(url){
+    sendBtn.href = url;
+    sendBtn.target = '_blank';
+    sendBtn.rel = 'noopener';
+    sendBtn.style.pointerEvents = 'auto';
+    sendBtn.style.opacity = '1';
+  } else {
+    sendBtn.href = '#';
+    sendBtn.removeAttribute('target');
+    sendBtn.style.pointerEvents = 'none';
+    sendBtn.style.opacity = '.45';
+  }
+}
+
+searchEl.addEventListener('input', render);
+empNameEl.addEventListener('input', updateCount);
+function resetOrder(){
+  Object.keys(qty).forEach(k=> qty[k] = 0);
+  empNameEl.value = '';
+  render();
+  toast('Pedido enviado! Lista zerada para o próximo pedido.');
+}
+
+sendBtn.addEventListener('click', e=>{
+  const msg = buildOrderMessage();
+  if(!msg){ e.preventDefault(); return; }
+  const url = buildWhatsappUrl();
+  sendBtn.href = url;
+  if(navigator.share){
+    e.preventDefault();
+    navigator.share({text: msg}).then(resetOrder).catch(()=>{});
+  } else {
+    setTimeout(resetOrder, 350);
+  }
+});
+
+render();
+
+// ---- Área da RT (admin) ----
+const modalRoot = document.getElementById('modalRoot');
+const toastEl = document.getElementById('toast');
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(()=>toastEl.classList.remove('show'), 2200);
+}
+
+document.getElementById('rtLink').addEventListener('click', openLogin);
+
+function openLogin(){
+  modalRoot.innerHTML = `
+  <div class="modal-overlay" id="ov">
+    <div class="modal">
+      <button class="close-x" id="cx">✕</button>
+      <h2>Área da RT</h2>
+      <input type="password" id="pw" placeholder="Senha" inputmode="numeric">
+      <button class="modal-btn" id="pwOk">Entrar</button>
+    </div>
+  </div>`;
+  document.getElementById('cx').onclick = closeModal;
+  document.getElementById('ov').onclick = (e)=>{ if(e.target.id==='ov') closeModal(); };
+  document.getElementById('pwOk').onclick = ()=>{
+    if(document.getElementById('pw').value === ADMIN_PASSWORD){
+      openAdmin();
+    } else {
+      toast('Senha incorreta');
+    }
+  };
+}
+
+function closeModal(){ modalRoot.innerHTML = ''; }
+
+function openAdmin(){
+  const sorted = sortItems(ITEMS);
+  let rows = sorted.map(n=>`
+    <div class="admin-row" data-name="${encodeURIComponent(n)}">
+      <span>${n}</span>
+      <button class="del">✕</button>
+    </div>`).join('');
+  modalRoot.innerHTML = `
+  <div class="modal-overlay" id="ov">
+    <div class="modal">
+      <button class="close-x" id="cx">✕</button>
+      <h2>Editar lista de materiais</h2>
+      <input type="text" id="newItem" placeholder="Nome do novo material">
+      <button class="modal-btn secondary" id="addBtn">Adicionar item</button>
+      <div style="margin-top:14px;max-height:40vh;overflow-y:auto;">${rows}</div>
+      <p style="font-size:12px;color:var(--ink-soft);margin:14px 0 0;">Ao salvar, um arquivo atualizado será baixado. Arraste esse arquivo no Netlify para atualizar o link da equipe.</p>
+      <button class="modal-btn" id="saveBtn" style="margin-top:10px;">Salvar alterações</button>
+    </div>
+  </div>`;
+  document.getElementById('cx').onclick = closeModal;
+  document.getElementById('ov').onclick = (e)=>{ if(e.target.id==='ov') closeModal(); };
+  document.getElementById('addBtn').onclick = ()=>{
+    const v = document.getElementById('newItem').value.trim();
+    if(v && !ITEMS.includes(v)){ ITEMS.push(v); qty[v]=0; openAdmin(); }
+  };
+  modalRoot.querySelectorAll('.del').forEach(btn=>{
+    btn.onclick = (e)=>{
+      const n = decodeURIComponent(e.target.closest('.admin-row').dataset.name);
+      ITEMS = ITEMS.filter(x=>x!==n);
+      delete qty[n];
+      openAdmin();
+    };
+  });
+  document.getElementById('saveBtn').onclick = saveChanges;
+}
+
+async function saveChanges(){
+  render();
+  try{
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML.replace(
+      /let ITEMS = .*?;/,
+      'let ITEMS = ' + JSON.stringify(ITEMS) + ';'
+    );
+    const blob = new Blob([html], {type: 'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'materiais-nabeauty.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    toast('Arquivo atualizado baixado! Reenvie no Netlify.');
+  }catch(err){
+    toast('Não foi possível gerar o arquivo. Tente novamente.');
+  }
+  closeModal();
+}
+</script>
+</body>
+</html>
